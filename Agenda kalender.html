@@ -80,6 +80,19 @@ select { padding: 6px; }
     background: #ffc107 !important;
 }
 
+/* INFO TEXT */
+.calendar-info {
+    max-width: 650px;
+    margin: 10px auto 20px auto;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
 /* LIST AGENDA */
 #eventList {
     max-width: 650px;
@@ -104,10 +117,6 @@ select { padding: 6px; }
     margin-bottom: 6px;
 }
 
-.event-content div {
-    margin-bottom: 4px;
-}
-
 /* MODAL */
 #eventModal {
     position: fixed;
@@ -120,12 +129,6 @@ select { padding: 6px; }
     display: none;
     width: 340px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translate(-50%, -55%); }
-    to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
 .form-group {
@@ -138,7 +141,6 @@ select { padding: 6px; }
     font-size: 13px;
     font-weight: bold;
     margin-bottom: 4px;
-    color: #444;
 }
 
 .form-group input {
@@ -205,6 +207,10 @@ select { padding: 6px; }
     <div class="days" id="daysContainer"></div>
 </div>
 
+<div class="calendar-info">
+    Masukan Jadwal anda dengan cara Tekan Tanggal, lalu isikan Jadwal anda.
+</div>
+
 <div id="eventList">
     <h3>Daftar Agenda Bulan Ini</h3>
     <div id="listContainer"></div>
@@ -221,8 +227,8 @@ select { padding: 6px; }
     </div>
 
     <div class="form-group">
-        <label>Jam</label>
-        <input type="time" id="jam">
+        <label>Jam (Format 24 Jam)</label>
+        <input type="time" id="jam" step="60" lang="id-ID">
     </div>
 
     <div class="form-group">
@@ -376,7 +382,6 @@ function generateEventList(){
                       " " + year;
 
     const daysInMonth = new Date(year, selectedMonth+1, 0).getDate();
-
     let found = false;
 
     for(let d=1; d<=daysInMonth; d++){
@@ -385,7 +390,6 @@ function generateEventList(){
 
         if(saved){
             const events = JSON.parse(saved);
-
             events.forEach((data) => {
                 found = true;
 
@@ -396,11 +400,9 @@ function generateEventList(){
                     <div class="event-date">
                         <strong>${d} ${monthNames[selectedMonth]} ${year}</strong>
                     </div>
-                    <div class="event-content">
-                        <div><strong>${data.hari}</strong> | ${data.jam || "-"}</div>
-                        <div>📍 ${data.tempat || "-"}</div>
-                        <div>📝 ${data.acara || "-"}</div>
-                    </div>
+                    <div><strong>${data.hari}</strong> | ${data.jam || "-"}</div>
+                    <div>📍 ${data.tempat || "-"}</div>
+                    <div>📝 ${data.acara || "-"}</div>
                 `;
 
                 listContainer.appendChild(div);
@@ -420,5 +422,3 @@ renderCalendar();
 
 </body>
 </html>
-
-
